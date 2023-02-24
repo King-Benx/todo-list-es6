@@ -1,30 +1,10 @@
+import todo from './ToDo.js';
 import '../styles/style.scss';
 
 const list = document.getElementById('list');
 const form = document.getElementById('form');
-
-const todo = [
-  {
-    description: 'Create index file',
-    index: 2,
-    completed: true,
-  },
-  {
-    description: 'Setup linters',
-    index: 4,
-    completed: false,
-  },
-  {
-    description: 'Finish project',
-    index: 1,
-    completed: false,
-  },
-  {
-    description: 'Deploy project',
-    index: 3,
-    completed: true,
-  },
-];
+const todoInput = document.getElementById('todo');
+const clearList = document.getElementById('clear-list');
 
 const createToDo = (index, description, completed) => {
   const listItem = document.createElement('li');
@@ -38,16 +18,17 @@ const createToDo = (index, description, completed) => {
   input.value = description;
   input.className = 'to-do-item';
   input.checked = completed;
-  const label = document.createElement('label');
-  label.htmlFor = index;
-  label.innerText = description;
+  const todoInput = document.createElement('input');
+  todoInput.id = index;
+  todoInput.value = description;
+  todoInput.className = 'todo-form-input';
   const spanContainer = document.createElement('span');
   const iconContainer = document.createElement('i');
   iconContainer.className = 'fas';
   iconContainer.innerHTML = '';
   spanContainer.append(iconContainer);
   inputContainer.append(input);
-  inputContainer.append(label);
+  inputContainer.append(todoInput);
   listItemContainer.append(inputContainer);
   listItemContainer.append(spanContainer);
   listItem.append(listItemContainer);
@@ -57,7 +38,7 @@ const createToDo = (index, description, completed) => {
 const sortData = (data) => data.sort((a, b) => a.index - b.index);
 
 const showList = () => {
-  const listOfToDos = sortData(todo);
+  const listOfToDos = sortData(todo.getListOfToDos());
   if (listOfToDos.length) {
     for (let i = 0; i < listOfToDos.length; i += 1) {
       const { index, description, completed } = listOfToDos[i];
@@ -73,3 +54,44 @@ const populateView = () => {
 };
 
 populateView();
+
+const sortList = (items) => {
+  const sortedList = [];
+  for (let i = 0; i < items.length; i += 1) {
+    sortedList.push({ ...items[i], index: i + 1 });
+  }
+  return sortedList;
+};
+
+todoInput.addEventListener('keypress', (e) => {
+  if (e.key === 'Enter') {
+    todo.addToDo(e.target.value, false);
+    populateView();
+  }
+});
+
+clearList.addEventListener('click', (e) => {
+  e.preventDefault();
+  const allToDos = todo.getListOfToDos();
+  const updatedData = allToDos.filter((it) => it.completed !== true);
+  todo.updateStorage(sortList(updatedData));
+  populateView();
+});
+
+document.addEventListener('click', (e) => {
+  const target = e.target.closest('.to-do-item');
+  if (target) {
+    todo.setItemChecked(target.id, target.checked);
+    populateView();
+  }
+});
+
+form.addEventListener('keypress', (e) => {
+  const target = e.target.closest('.todo-form-input');
+  if (target) {
+    if (e.key === 'Enter') {
+      todo.editTask(target.id, target.value);
+      populateView();
+    }
+  }
+});

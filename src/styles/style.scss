@@ -19,6 +19,11 @@ form {
   margin-block: 15%;
   border: 1.4px solid gray;
 
+  .todo-form-input {
+    width: 80%;
+    border: none;
+  }
+
   legend {
     div {
       display: flex;
@@ -53,8 +58,9 @@ form {
     border-bottom: 1px solid gray;
   }
 
-  #todo:focus {
-    border: none;
+  #todo:focus,
+  .todo-form-input:focus {
+    outline: none;
   }
 
   .form-group {
