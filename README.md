@@ -75,18 +75,17 @@ In order to run this project you need:
 
 ### Setup
 
-Clone this repository to your desired folder:
-
-```git clone git@github.com:King-Benx/todo-list.git```
+1. Clone this repository to your desired folder: ```git clone git@github.com:King-Benx/todo-list-es6.git```
+2. Checkout to the root directory ```cd todo-list-es6.git```
+3. Install dependencies ```npm i```
+4. To run ```npm run dev```
 
 ### Usage
 
-To run the project, execute the following command:
+NB: Make sure that you have successfully setup and run all necessary dependencies
 
-```
-1. Right click index.html file and run in browser.
-2. Open index file in vscode right click and open in live server
-```
+1. To create a build, execute the following command: ```npm run build```
+2. To run the application within your browser ```npm run dev```
 
 ## 👥 Author <a name="authors"></a>
 
