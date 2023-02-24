@@ -4,26 +4,26 @@ const list = document.getElementById('list');
 const form = document.getElementById('form');
 
 const todo = [
-    {
-        description:'Create index file',
-        index:1,
-        completed:true,
-    },
-     {
-        description:'Setup linters',
-        index:2,
-        completed:false,
-    },
-     {
-        description:'Finish project',
-        index:3,
-        completed:false,
-    },
-     {
-        description:'Deploy project',
-        index:1,
-        completed:true,
-    }
+  {
+    description: 'Create index file',
+    index: 2,
+    completed: true,
+  },
+  {
+    description: 'Setup linters',
+    index: 4,
+    completed: false,
+  },
+  {
+    description: 'Finish project',
+    index: 1,
+    completed: false,
+  },
+  {
+    description: 'Deploy project',
+    index: 3,
+    completed: true,
+  },
 ];
 
 const createToDo = (index, description, completed) => {
@@ -54,8 +54,10 @@ const createToDo = (index, description, completed) => {
   list.append(listItem);
 };
 
+const sortData = (data) => data.sort((a, b) => a.index - b.index);
+
 const showList = () => {
-  const listOfToDos = todo;
+  const listOfToDos = sortData(todo);
   if (listOfToDos.length) {
     for (let i = 0; i < listOfToDos.length; i += 1) {
       const { index, description, completed } = listOfToDos[i];
@@ -71,4 +73,3 @@ const populateView = () => {
 };
 
 populateView();
-
