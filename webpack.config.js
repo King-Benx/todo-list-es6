@@ -1,4 +1,3 @@
-
 const path = require('path');
 const HtmlWepackPlugin = require('html-webpack-plugin');
 // const BundleAnalyzerPlugin = require("webpack-bundle-analyzer").BundleAnalyzerPlugin;
