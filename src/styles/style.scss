@@ -11,13 +11,21 @@ body {
   padding: 0;
 }
 
-form {
-  background-color: #fff;
+.container {
   max-width: 441px;
   min-width: 320px;
   margin: auto;
   margin-block: 15%;
   border: 1.4px solid gray;
+}
+
+form {
+  background-color: #fff;
+
+  .todo-form-input {
+    width: 80%;
+    border: none;
+  }
 
   legend {
     div {
@@ -37,6 +45,22 @@ form {
     }
   }
 
+  #todo {
+    width: 100%;
+    padding: 1rem;
+    border: none;
+    border-bottom: 1px solid gray;
+  }
+
+  #todo:focus {
+    outline: none;
+  }
+}
+
+.container-section {
+  width: 100%;
+  text-align: center;
+
   .todo-item {
     display: flex;
     justify-content: space-between;
@@ -46,31 +70,39 @@ form {
     padding-block: 0.9rem;
   }
 
-  #todo {
-    width: 100%;
-    padding: 1rem;
-    border: none;
-    border-bottom: 1px solid gray;
-  }
-
-  #todo:focus {
+  .todo-form-input {
     border: none;
   }
 
-  .form-group {
-    width: 100%;
-    text-align: center;
+  .todo-form-input:focus {
+    outline: none;
+  }
 
-    button {
-      margin-block-end: 1rem;
-      border: none;
-      background: transparent;
-      color: gray;
-      cursor: pointer;
+  button {
+    margin-block-end: 1rem;
+    border: none;
+    background: transparent;
+    color: gray;
+    cursor: pointer;
 
-      :hover {
-        color: black;
-      }
+    :hover {
+      color: black;
+    }
+  }
+}
+
+.container-footer {
+  text-align: center;
+
+  button {
+    margin-block-end: 1rem;
+    border: none;
+    background: transparent;
+    color: gray;
+    cursor: pointer;
+
+    :hover {
+      color: black;
     }
   }
 }
@@ -83,5 +115,9 @@ ol {
     height: 100%;
     margin: 0;
     padding: 0;
+
+    .trash-delete {
+      cursor: pointer;
+    }
   }
 }
