@@ -1,16 +1,7 @@
 class ToDo {
   constructor() {
     const storedData = JSON.parse(localStorage.getItem('todo-es6'));
-    if (storedData && storedData.length) {
-      if (['index', 'description', 'completed'].every((it) => Object.keys(storedData[0]).includes(it))) {
-        this.listOfToDos = storedData;
-      } else {
-        localStorage.clear();
-        this.listOfToDos = [];
-      }
-    } else {
-      this.listOfToDos = [];
-    }
+    this.listOfToDos = storedData || [];
   }
 
   updateList() {
@@ -18,12 +9,12 @@ class ToDo {
   }
 
   updateStorage(items) {
-    localStorage.setItem('todo-es6', JSON.stringify(items));
+    localStorage.setItem('todo-es6', JSON.stringify(this.sortList(items)));
     this.updateList();
   }
 
   setItemChecked(identifier, flag) {
-    const data = this.listOfToDos;
+    const data = this.getListOfToDos();
     const updatedData = data.map((it) => {
       if (it.index.toString() === identifier.toString()) {
         return {
@@ -37,7 +28,7 @@ class ToDo {
   }
 
   editTask(identifier, update) {
-    const data = this.listOfToDos;
+    const data = this.getListOfToDos();
     const updatedData = data.map((it) => {
       if (it.index.toString() === identifier.toString()) {
         return {
@@ -51,7 +42,7 @@ class ToDo {
   }
 
   addToDo(description, completed) {
-    const allToDos = this.listOfToDos;
+    const allToDos = this.getListOfToDos();
     const updatedData = [
       ...allToDos,
       { index: allToDos?.length + 1, description, completed },
@@ -60,14 +51,22 @@ class ToDo {
   }
 
   removeToDo(index) {
-    const allToDos = this.listOfToDos;
-    const updatedData = allToDos.filter((todo) => todo.index.toString() !== index);
-    this.updateStorage(updatedData);
+    const allToDos = this.getListOfToDos();
+    const updatedData = allToDos.filter((it) => it.index.toString() !== index);
+    this.updateStorage(this.sortList(updatedData));
   }
 
   getListOfToDos() {
     return this.listOfToDos;
   }
+
+sortList = (items) => {
+  const sortedList = [];
+  for (let i = 0; i < items.length; i += 1) {
+    sortedList.push({ ...items[i], index: i + 1 });
+  }
+  return sortedList;
+}
 }
 
 const todo = new ToDo();

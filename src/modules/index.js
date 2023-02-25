@@ -22,10 +22,13 @@ const createToDo = (index, description, completed) => {
   todoInput.id = index;
   todoInput.value = description;
   todoInput.className = 'todo-form-input';
-  const spanContainer = document.createElement('span');
+  const spanContainer = document.createElement('button');
+  spanContainer.classList.add('button-delete');
+  spanContainer.id = index;
   const iconContainer = document.createElement('i');
   iconContainer.className = 'fas';
-  iconContainer.innerHTML = '';
+  iconContainer.classList.add('trash-delete');
+  iconContainer.innerHTML = '';
   spanContainer.append(iconContainer);
   inputContainer.append(input);
   inputContainer.append(todoInput);
@@ -35,10 +38,8 @@ const createToDo = (index, description, completed) => {
   list.append(listItem);
 };
 
-const sortData = (data) => data.sort((a, b) => a.index - b.index);
-
 const showList = () => {
-  const listOfToDos = sortData(todo.getListOfToDos());
+  const listOfToDos = todo.getListOfToDos() || [];
   if (listOfToDos.length) {
     for (let i = 0; i < listOfToDos.length; i += 1) {
       const { index, description, completed } = listOfToDos[i];
@@ -55,18 +56,13 @@ const populateView = () => {
 
 populateView();
 
-const sortList = (items) => {
-  const sortedList = [];
-  for (let i = 0; i < items.length; i += 1) {
-    sortedList.push({ ...items[i], index: i + 1 });
-  }
-  return sortedList;
-};
-
 todoInput.addEventListener('keypress', (e) => {
+  e.stopPropagation();
   if (e.key === 'Enter') {
-    todo.addToDo(e.target.value, false);
-    populateView();
+    if (e.target.value.length) {
+      todo.addToDo(e.target.value, false);
+      populateView();
+    }
   }
 });
 
@@ -74,24 +70,30 @@ clearList.addEventListener('click', (e) => {
   e.preventDefault();
   const allToDos = todo.getListOfToDos();
   const updatedData = allToDos.filter((it) => it.completed !== true);
-  todo.updateStorage(sortList(updatedData));
+  todo.updateStorage(updatedData);
   populateView();
 });
 
-document.addEventListener('click', (e) => {
-  const target = e.target.closest('.to-do-item');
-  if (target) {
-    todo.setItemChecked(target.id, target.checked);
-    populateView();
-  }
-});
-
-form.addEventListener('keypress', (e) => {
+list.addEventListener('keypress', (e) => {
+  e.stopPropagation();
   const target = e.target.closest('.todo-form-input');
   if (target) {
     if (e.key === 'Enter') {
       todo.editTask(target.id, target.value);
       populateView();
     }
+  }
+});
+
+list.addEventListener('click', (e) => {
+  const target = e.target.closest('.to-do-item');
+  const deleteTarget = e.target.closest('.button-delete');
+  if (target) {
+    todo.setItemChecked(target.id, target.checked);
+    populateView();
+  }
+  if (deleteTarget) {
+    todo.removeToDo(deleteTarget.id);
+    populateView();
   }
 });
