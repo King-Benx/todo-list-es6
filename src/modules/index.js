@@ -1,3 +1,4 @@
+import change from './UserInteraction.js';
 import todo from './ToDo.js';
 import '../styles/style.scss';
 
@@ -89,7 +90,7 @@ list.addEventListener('click', (e) => {
   const target = e.target.closest('.to-do-item');
   const deleteTarget = e.target.closest('.button-delete');
   if (target) {
-    todo.setItemChecked(target.id, target.checked);
+    change(target.id, target.checked);
     populateView();
   }
   if (deleteTarget) {
