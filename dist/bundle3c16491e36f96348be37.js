@@ -21,28 +21,26 @@ function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) return _arrayLikeToAr
 function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) arr2[i] = arr[i]; return arr2; }
 function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); enumerableOnly && (symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; })), keys.push.apply(keys, symbols); } return keys; }
 function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = null != arguments[i] ? arguments[i] : {}; i % 2 ? ownKeys(Object(source), !0).forEach(function (key) { _defineProperty(target, key, source[key]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } return target; }
-function _defineProperty(obj, key, value) { key = _toPropertyKey(key); if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, _toPropertyKey(descriptor.key), descriptor); } }
 function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); Object.defineProperty(Constructor, "prototype", { writable: false }); return Constructor; }
+function _defineProperty(obj, key, value) { key = _toPropertyKey(key); if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 function _toPropertyKey(arg) { var key = _toPrimitive(arg, "string"); return _typeof(key) === "symbol" ? key : String(key); }
 function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input === null) return input; var prim = input[Symbol.toPrimitive]; if (prim !== undefined) { var res = prim.call(input, hint || "default"); if (_typeof(res) !== "object") return res; throw new TypeError("@@toPrimitive must return a primitive value."); } return (hint === "string" ? String : Number)(input); }
 var ToDo = /*#__PURE__*/function () {
   function ToDo() {
     _classCallCheck(this, ToDo);
-    var storedData = JSON.parse(localStorage.getItem('todo-es6'));
-    if (storedData && storedData.length) {
-      if (['index', 'description', 'completed'].every(function (it) {
-        return Object.keys(storedData[0]).includes(it);
-      })) {
-        this.listOfToDos = storedData;
-      } else {
-        localStorage.clear();
-        this.listOfToDos = [];
+    _defineProperty(this, "sortList", function (items) {
+      var sortedList = [];
+      for (var i = 0; i < items.length; i += 1) {
+        sortedList.push(_objectSpread(_objectSpread({}, items[i]), {}, {
+          index: i + 1
+        }));
       }
-    } else {
-      this.listOfToDos = [];
-    }
+      return sortedList;
+    });
+    var storedData = JSON.parse(localStorage.getItem('todo-es6'));
+    this.listOfToDos = storedData || [];
   }
   _createClass(ToDo, [{
     key: "updateList",
@@ -52,13 +50,13 @@ var ToDo = /*#__PURE__*/function () {
   }, {
     key: "updateStorage",
     value: function updateStorage(items) {
-      localStorage.setItem('todo-es6', JSON.stringify(items));
+      localStorage.setItem('todo-es6', JSON.stringify(this.sortList(items)));
       this.updateList();
     }
   }, {
     key: "setItemChecked",
     value: function setItemChecked(identifier, flag) {
-      var data = this.listOfToDos;
+      var data = this.getListOfToDos();
       var updatedData = data.map(function (it) {
         if (it.index.toString() === identifier.toString()) {
           return _objectSpread(_objectSpread({}, it), {}, {
@@ -72,7 +70,7 @@ var ToDo = /*#__PURE__*/function () {
   }, {
     key: "editTask",
     value: function editTask(identifier, update) {
-      var data = this.listOfToDos;
+      var data = this.getListOfToDos();
       var updatedData = data.map(function (it) {
         if (it.index.toString() === identifier.toString()) {
           return _objectSpread(_objectSpread({}, it), {}, {
@@ -86,7 +84,7 @@ var ToDo = /*#__PURE__*/function () {
   }, {
     key: "addToDo",
     value: function addToDo(description, completed) {
-      var allToDos = this.listOfToDos;
+      var allToDos = this.getListOfToDos();
       var updatedData = [].concat(_toConsumableArray(allToDos), [{
         index: (allToDos === null || allToDos === void 0 ? void 0 : allToDos.length) + 1,
         description: description,
@@ -97,11 +95,11 @@ var ToDo = /*#__PURE__*/function () {
   }, {
     key: "removeToDo",
     value: function removeToDo(index) {
-      var allToDos = this.listOfToDos;
-      var updatedData = allToDos.filter(function (todo) {
-        return todo.index.toString() !== index;
+      var allToDos = this.getListOfToDos();
+      var updatedData = allToDos.filter(function (it) {
+        return it.index.toString() !== index;
       });
-      this.updateStorage(updatedData);
+      this.updateStorage(this.sortList(updatedData));
     }
   }, {
     key: "getListOfToDos",
@@ -135,7 +133,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1___default()((_node_modules_css_loader_dist_runtime_sourceMaps_js__WEBPACK_IMPORTED_MODULE_0___default()));
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "*,\n*::after,\n*::before {\n  box-sizing: border-box;\n}\n\nbody {\n  width: 100vw;\n  height: 100%;\n  margin: 0;\n  padding: 0;\n}\n\nform {\n  background-color: #fff;\n  max-width: 441px;\n  min-width: 320px;\n  margin: auto;\n  margin-block: 15%;\n  border: 1.4px solid gray;\n}\nform .todo-form-input {\n  width: 80%;\n  border: none;\n}\nform legend div {\n  display: flex;\n  justify-content: space-between;\n  align-items: center;\n  padding: 1rem;\n  border-bottom: 1px solid gray;\n}\nform legend div span {\n  color: #616060;\n}\nform legend div span:last-child {\n  cursor: pointer;\n}\nform .todo-item {\n  display: flex;\n  justify-content: space-between;\n  align-items: center;\n  padding-inline: 1rem;\n  border-bottom: 1px solid gray;\n  padding-block: 0.9rem;\n}\nform #todo {\n  width: 100%;\n  padding: 1rem;\n  border: none;\n  border-bottom: 1px solid gray;\n}\nform #todo:focus,\nform .todo-form-input:focus {\n  outline: none;\n}\nform .form-group {\n  width: 100%;\n  text-align: center;\n}\nform .form-group button {\n  margin-block-end: 1rem;\n  border: none;\n  background: transparent;\n  color: gray;\n  cursor: pointer;\n}\nform .form-group button :hover {\n  color: black;\n}\n\nol {\n  list-style: none;\n  padding: 0;\n}\nol li {\n  height: 100%;\n  margin: 0;\n  padding: 0;\n}", "",{"version":3,"sources":["webpack://./src/styles/style.scss"],"names":[],"mappings":"AAAA;;;EAGE,sBAAA;AACF;;AAEA;EACE,YAAA;EACA,YAAA;EACA,SAAA;EACA,UAAA;AACF;;AAEA;EACE,sBAAA;EACA,gBAAA;EACA,gBAAA;EACA,YAAA;EACA,iBAAA;EACA,wBAAA;AACF;AACE;EACE,UAAA;EACA,YAAA;AACJ;AAGI;EACE,aAAA;EACA,8BAAA;EACA,mBAAA;EACA,aAAA;EACA,6BAAA;AADN;AAGM;EACE,cAAA;AADR;AAIM;EACE,eAAA;AAFR;AAOE;EACE,aAAA;EACA,8BAAA;EACA,mBAAA;EACA,oBAAA;EACA,6BAAA;EACA,qBAAA;AALJ;AAQE;EACE,WAAA;EACA,aAAA;EACA,YAAA;EACA,6BAAA;AANJ;AASE;;EAEE,aAAA;AAPJ;AAUE;EACE,WAAA;EACA,kBAAA;AARJ;AAUI;EACE,sBAAA;EACA,YAAA;EACA,uBAAA;EACA,WAAA;EACA,eAAA;AARN;AAUM;EACE,YAAA;AARR;;AAcA;EACE,gBAAA;EACA,UAAA;AAXF;AAaE;EACE,YAAA;EACA,SAAA;EACA,UAAA;AAXJ","sourcesContent":["*,\n*::after,\n*::before {\n  box-sizing: border-box;\n}\n\nbody {\n  width: 100vw;\n  height: 100%;\n  margin: 0;\n  padding: 0;\n}\n\nform {\n  background-color: #fff;\n  max-width: 441px;\n  min-width: 320px;\n  margin: auto;\n  margin-block: 15%;\n  border: 1.4px solid gray;\n\n  .todo-form-input {\n    width: 80%;\n    border: none;\n  }\n\n  legend {\n    div {\n      display: flex;\n      justify-content: space-between;\n      align-items: center;\n      padding: 1rem;\n      border-bottom: 1px solid gray;\n\n      span {\n        color: #616060;\n      }\n\n      span:last-child {\n        cursor: pointer;\n      }\n    }\n  }\n\n  .todo-item {\n    display: flex;\n    justify-content: space-between;\n    align-items: center;\n    padding-inline: 1rem;\n    border-bottom: 1px solid gray;\n    padding-block: 0.9rem;\n  }\n\n  #todo {\n    width: 100%;\n    padding: 1rem;\n    border: none;\n    border-bottom: 1px solid gray;\n  }\n\n  #todo:focus,\n  .todo-form-input:focus {\n    outline: none;\n  }\n\n  .form-group {\n    width: 100%;\n    text-align: center;\n\n    button {\n      margin-block-end: 1rem;\n      border: none;\n      background: transparent;\n      color: gray;\n      cursor: pointer;\n\n      :hover {\n        color: black;\n      }\n    }\n  }\n}\n\nol {\n  list-style: none;\n  padding: 0;\n\n  li {\n    height: 100%;\n    margin: 0;\n    padding: 0;\n  }\n}\n"],"sourceRoot":""}]);
+___CSS_LOADER_EXPORT___.push([module.id, "*,\n*::after,\n*::before {\n  box-sizing: border-box;\n}\n\nbody {\n  width: 100vw;\n  height: 100%;\n  margin: 0;\n  padding: 0;\n}\n\n.container {\n  max-width: 441px;\n  min-width: 320px;\n  margin: auto;\n  margin-block: 15%;\n  border: 1.4px solid gray;\n}\n\nform {\n  background-color: #fff;\n}\nform .todo-form-input {\n  width: 80%;\n  border: none;\n}\nform legend div {\n  display: flex;\n  justify-content: space-between;\n  align-items: center;\n  padding: 1rem;\n  border-bottom: 1px solid gray;\n}\nform legend div span {\n  color: #616060;\n}\nform legend div span:last-child {\n  cursor: pointer;\n}\nform #todo {\n  width: 100%;\n  padding: 1rem;\n  border: none;\n  border-bottom: 1px solid gray;\n}\nform #todo:focus {\n  outline: none;\n}\n\n.container-section {\n  width: 100%;\n  text-align: center;\n}\n.container-section .todo-item {\n  display: flex;\n  justify-content: space-between;\n  align-items: center;\n  padding-inline: 1rem;\n  border-bottom: 1px solid gray;\n  padding-block: 0.9rem;\n}\n.container-section .todo-form-input {\n  border: none;\n}\n.container-section .todo-form-input:focus {\n  outline: none;\n}\n.container-section button {\n  margin-block-end: 1rem;\n  border: none;\n  background: transparent;\n  color: gray;\n  cursor: pointer;\n}\n.container-section button :hover {\n  color: black;\n}\n\n.container-footer {\n  text-align: center;\n}\n.container-footer button {\n  margin-block-end: 1rem;\n  border: none;\n  background: transparent;\n  color: gray;\n  cursor: pointer;\n}\n.container-footer button :hover {\n  color: black;\n}\n\nol {\n  list-style: none;\n  padding: 0;\n}\nol li {\n  height: 100%;\n  margin: 0;\n  padding: 0;\n}\nol li .trash-delete {\n  cursor: pointer;\n}", "",{"version":3,"sources":["webpack://./src/styles/style.scss"],"names":[],"mappings":"AAAA;;;EAGE,sBAAA;AACF;;AAEA;EACE,YAAA;EACA,YAAA;EACA,SAAA;EACA,UAAA;AACF;;AAEA;EACE,gBAAA;EACA,gBAAA;EACA,YAAA;EACA,iBAAA;EACA,wBAAA;AACF;;AAEA;EACE,sBAAA;AACF;AACE;EACE,UAAA;EACA,YAAA;AACJ;AAGI;EACE,aAAA;EACA,8BAAA;EACA,mBAAA;EACA,aAAA;EACA,6BAAA;AADN;AAGM;EACE,cAAA;AADR;AAIM;EACE,eAAA;AAFR;AAOE;EACE,WAAA;EACA,aAAA;EACA,YAAA;EACA,6BAAA;AALJ;AAQE;EACE,aAAA;AANJ;;AAUA;EACE,WAAA;EACA,kBAAA;AAPF;AASE;EACE,aAAA;EACA,8BAAA;EACA,mBAAA;EACA,oBAAA;EACA,6BAAA;EACA,qBAAA;AAPJ;AAUE;EACE,YAAA;AARJ;AAWE;EACE,aAAA;AATJ;AAYE;EACE,sBAAA;EACA,YAAA;EACA,uBAAA;EACA,WAAA;EACA,eAAA;AAVJ;AAYI;EACE,YAAA;AAVN;;AAeA;EACE,kBAAA;AAZF;AAcE;EACE,sBAAA;EACA,YAAA;EACA,uBAAA;EACA,WAAA;EACA,eAAA;AAZJ;AAcI;EACE,YAAA;AAZN;;AAiBA;EACE,gBAAA;EACA,UAAA;AAdF;AAgBE;EACE,YAAA;EACA,SAAA;EACA,UAAA;AAdJ;AAgBI;EACE,eAAA;AAdN","sourcesContent":["*,\n*::after,\n*::before {\n  box-sizing: border-box;\n}\n\nbody {\n  width: 100vw;\n  height: 100%;\n  margin: 0;\n  padding: 0;\n}\n\n.container {\n  max-width: 441px;\n  min-width: 320px;\n  margin: auto;\n  margin-block: 15%;\n  border: 1.4px solid gray;\n}\n\nform {\n  background-color: #fff;\n\n  .todo-form-input {\n    width: 80%;\n    border: none;\n  }\n\n  legend {\n    div {\n      display: flex;\n      justify-content: space-between;\n      align-items: center;\n      padding: 1rem;\n      border-bottom: 1px solid gray;\n\n      span {\n        color: #616060;\n      }\n\n      span:last-child {\n        cursor: pointer;\n      }\n    }\n  }\n\n  #todo {\n    width: 100%;\n    padding: 1rem;\n    border: none;\n    border-bottom: 1px solid gray;\n  }\n\n  #todo:focus {\n    outline: none;\n  }\n}\n\n.container-section {\n  width: 100%;\n  text-align: center;\n\n  .todo-item {\n    display: flex;\n    justify-content: space-between;\n    align-items: center;\n    padding-inline: 1rem;\n    border-bottom: 1px solid gray;\n    padding-block: 0.9rem;\n  }\n\n  .todo-form-input {\n    border: none;\n  }\n\n  .todo-form-input:focus {\n    outline: none;\n  }\n\n  button {\n    margin-block-end: 1rem;\n    border: none;\n    background: transparent;\n    color: gray;\n    cursor: pointer;\n\n    :hover {\n      color: black;\n    }\n  }\n}\n\n.container-footer {\n  text-align: center;\n\n  button {\n    margin-block-end: 1rem;\n    border: none;\n    background: transparent;\n    color: gray;\n    cursor: pointer;\n\n    :hover {\n      color: black;\n    }\n  }\n}\n\nol {\n  list-style: none;\n  padding: 0;\n\n  li {\n    height: 100%;\n    margin: 0;\n    padding: 0;\n\n    .trash-delete {\n      cursor: pointer;\n    }\n  }\n}\n"],"sourceRoot":""}]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -703,12 +701,6 @@ var __webpack_exports__ = {};
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _ToDo_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./ToDo.js */ "./src/modules/ToDo.js");
 /* harmony import */ var _styles_style_scss__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../styles/style.scss */ "./src/styles/style.scss");
-function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }, _typeof(obj); }
-function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); enumerableOnly && (symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; })), keys.push.apply(keys, symbols); } return keys; }
-function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = null != arguments[i] ? arguments[i] : {}; i % 2 ? ownKeys(Object(source), !0).forEach(function (key) { _defineProperty(target, key, source[key]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } return target; }
-function _defineProperty(obj, key, value) { key = _toPropertyKey(key); if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-function _toPropertyKey(arg) { var key = _toPrimitive(arg, "string"); return _typeof(key) === "symbol" ? key : String(key); }
-function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input === null) return input; var prim = input[Symbol.toPrimitive]; if (prim !== undefined) { var res = prim.call(input, hint || "default"); if (_typeof(res) !== "object") return res; throw new TypeError("@@toPrimitive must return a primitive value."); } return (hint === "string" ? String : Number)(input); }
 
 
 var list = document.getElementById('list');
@@ -731,10 +723,13 @@ var createToDo = function createToDo(index, description, completed) {
   todoInput.id = index;
   todoInput.value = description;
   todoInput.className = 'todo-form-input';
-  var spanContainer = document.createElement('span');
+  var spanContainer = document.createElement('button');
+  spanContainer.classList.add('button-delete');
+  spanContainer.id = index;
   var iconContainer = document.createElement('i');
   iconContainer.className = 'fas';
-  iconContainer.innerHTML = '';
+  iconContainer.classList.add('trash-delete');
+  iconContainer.innerHTML = '';
   spanContainer.append(iconContainer);
   inputContainer.append(input);
   inputContainer.append(todoInput);
@@ -743,13 +738,8 @@ var createToDo = function createToDo(index, description, completed) {
   listItem.append(listItemContainer);
   list.append(listItem);
 };
-var sortData = function sortData(data) {
-  return data.sort(function (a, b) {
-    return a.index - b.index;
-  });
-};
 var showList = function showList() {
-  var listOfToDos = sortData(_ToDo_js__WEBPACK_IMPORTED_MODULE_0__["default"].getListOfToDos());
+  var listOfToDos = _ToDo_js__WEBPACK_IMPORTED_MODULE_0__["default"].getListOfToDos() || [];
   if (listOfToDos.length) {
     for (var i = 0; i < listOfToDos.length; i += 1) {
       var _listOfToDos$i = listOfToDos[i],
@@ -766,19 +756,13 @@ var populateView = function populateView() {
   showList();
 };
 populateView();
-var sortList = function sortList(items) {
-  var sortedList = [];
-  for (var i = 0; i < items.length; i += 1) {
-    sortedList.push(_objectSpread(_objectSpread({}, items[i]), {}, {
-      index: i + 1
-    }));
-  }
-  return sortedList;
-};
 todoInput.addEventListener('keypress', function (e) {
+  e.stopPropagation();
   if (e.key === 'Enter') {
-    _ToDo_js__WEBPACK_IMPORTED_MODULE_0__["default"].addToDo(e.target.value, false);
-    populateView();
+    if (e.target.value.length) {
+      _ToDo_js__WEBPACK_IMPORTED_MODULE_0__["default"].addToDo(e.target.value, false);
+      populateView();
+    }
   }
 });
 clearList.addEventListener('click', function (e) {
@@ -787,17 +771,11 @@ clearList.addEventListener('click', function (e) {
   var updatedData = allToDos.filter(function (it) {
     return it.completed !== true;
   });
-  _ToDo_js__WEBPACK_IMPORTED_MODULE_0__["default"].updateStorage(sortList(updatedData));
+  _ToDo_js__WEBPACK_IMPORTED_MODULE_0__["default"].updateStorage(updatedData);
   populateView();
 });
-document.addEventListener('click', function (e) {
-  var target = e.target.closest('.to-do-item');
-  if (target) {
-    _ToDo_js__WEBPACK_IMPORTED_MODULE_0__["default"].setItemChecked(target.id, target.checked);
-    populateView();
-  }
-});
-form.addEventListener('keypress', function (e) {
+list.addEventListener('keypress', function (e) {
+  e.stopPropagation();
   var target = e.target.closest('.todo-form-input');
   if (target) {
     if (e.key === 'Enter') {
@@ -806,8 +784,20 @@ form.addEventListener('keypress', function (e) {
     }
   }
 });
+list.addEventListener('click', function (e) {
+  var target = e.target.closest('.to-do-item');
+  var deleteTarget = e.target.closest('.button-delete');
+  if (target) {
+    _ToDo_js__WEBPACK_IMPORTED_MODULE_0__["default"].setItemChecked(target.id, target.checked);
+    populateView();
+  }
+  if (deleteTarget) {
+    _ToDo_js__WEBPACK_IMPORTED_MODULE_0__["default"].removeToDo(deleteTarget.id);
+    populateView();
+  }
+});
 })();
 
 /******/ })()
 ;
-//# sourceMappingURL=bundle1e02a28860895a65734c.js.map
+//# sourceMappingURL=bundle3c16491e36f96348be37.js.map
