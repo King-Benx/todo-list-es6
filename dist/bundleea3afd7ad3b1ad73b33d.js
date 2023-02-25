@@ -114,6 +114,25 @@ var todo = new ToDo();
 
 /***/ }),
 
+/***/ "./src/modules/UserInteraction.js":
+/*!****************************************!*\
+  !*** ./src/modules/UserInteraction.js ***!
+  \****************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _ToDo_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./ToDo.js */ "./src/modules/ToDo.js");
+
+var change = function change(id, status) {
+  _ToDo_js__WEBPACK_IMPORTED_MODULE_0__["default"].setItemChecked(id, status);
+};
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (change);
+
+/***/ }),
+
 /***/ "./node_modules/css-loader/dist/cjs.js!./node_modules/sass-loader/dist/cjs.js!./src/styles/style.scss":
 /*!************************************************************************************************************!*\
   !*** ./node_modules/css-loader/dist/cjs.js!./node_modules/sass-loader/dist/cjs.js!./src/styles/style.scss ***!
@@ -699,8 +718,10 @@ var __webpack_exports__ = {};
   !*** ./src/modules/index.js ***!
   \******************************/
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _ToDo_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./ToDo.js */ "./src/modules/ToDo.js");
-/* harmony import */ var _styles_style_scss__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../styles/style.scss */ "./src/styles/style.scss");
+/* harmony import */ var _UserInteraction_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./UserInteraction.js */ "./src/modules/UserInteraction.js");
+/* harmony import */ var _ToDo_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./ToDo.js */ "./src/modules/ToDo.js");
+/* harmony import */ var _styles_style_scss__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../styles/style.scss */ "./src/styles/style.scss");
+
 
 
 var list = document.getElementById('list');
@@ -739,7 +760,7 @@ var createToDo = function createToDo(index, description, completed) {
   list.append(listItem);
 };
 var showList = function showList() {
-  var listOfToDos = _ToDo_js__WEBPACK_IMPORTED_MODULE_0__["default"].getListOfToDos() || [];
+  var listOfToDos = _ToDo_js__WEBPACK_IMPORTED_MODULE_1__["default"].getListOfToDos() || [];
   if (listOfToDos.length) {
     for (var i = 0; i < listOfToDos.length; i += 1) {
       var _listOfToDos$i = listOfToDos[i],
@@ -760,18 +781,18 @@ todoInput.addEventListener('keypress', function (e) {
   e.stopPropagation();
   if (e.key === 'Enter') {
     if (e.target.value.length) {
-      _ToDo_js__WEBPACK_IMPORTED_MODULE_0__["default"].addToDo(e.target.value, false);
+      _ToDo_js__WEBPACK_IMPORTED_MODULE_1__["default"].addToDo(e.target.value, false);
       populateView();
     }
   }
 });
 clearList.addEventListener('click', function (e) {
   e.preventDefault();
-  var allToDos = _ToDo_js__WEBPACK_IMPORTED_MODULE_0__["default"].getListOfToDos();
+  var allToDos = _ToDo_js__WEBPACK_IMPORTED_MODULE_1__["default"].getListOfToDos();
   var updatedData = allToDos.filter(function (it) {
     return it.completed !== true;
   });
-  _ToDo_js__WEBPACK_IMPORTED_MODULE_0__["default"].updateStorage(updatedData);
+  _ToDo_js__WEBPACK_IMPORTED_MODULE_1__["default"].updateStorage(updatedData);
   populateView();
 });
 list.addEventListener('keypress', function (e) {
@@ -779,7 +800,7 @@ list.addEventListener('keypress', function (e) {
   var target = e.target.closest('.todo-form-input');
   if (target) {
     if (e.key === 'Enter') {
-      _ToDo_js__WEBPACK_IMPORTED_MODULE_0__["default"].editTask(target.id, target.value);
+      _ToDo_js__WEBPACK_IMPORTED_MODULE_1__["default"].editTask(target.id, target.value);
       populateView();
     }
   }
@@ -788,11 +809,11 @@ list.addEventListener('click', function (e) {
   var target = e.target.closest('.to-do-item');
   var deleteTarget = e.target.closest('.button-delete');
   if (target) {
-    _ToDo_js__WEBPACK_IMPORTED_MODULE_0__["default"].setItemChecked(target.id, target.checked);
+    (0,_UserInteraction_js__WEBPACK_IMPORTED_MODULE_0__["default"])(target.id, target.checked);
     populateView();
   }
   if (deleteTarget) {
-    _ToDo_js__WEBPACK_IMPORTED_MODULE_0__["default"].removeToDo(deleteTarget.id);
+    _ToDo_js__WEBPACK_IMPORTED_MODULE_1__["default"].removeToDo(deleteTarget.id);
     populateView();
   }
 });
@@ -800,4 +821,4 @@ list.addEventListener('click', function (e) {
 
 /******/ })()
 ;
-//# sourceMappingURL=bundle3c16491e36f96348be37.js.map
+//# sourceMappingURL=bundleea3afd7ad3b1ad73b33d.js.map
