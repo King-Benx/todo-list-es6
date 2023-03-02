@@ -30,4 +30,10 @@ describe('ToDo Tests', () => {
     todo.clearChecked();
     expect(todo.getListOfToDos().length).toBe(2);
   });
+  
+  test('todo.editTask(identifier, update)', () => {
+      todo.editTask('1', 'Index one updated');
+      const checkedItem = todo.getListOfToDos().filter((it) => it.description === 'Index one updated');
+      expect(checkedItem.length).toBe(1);
+  })
 });
