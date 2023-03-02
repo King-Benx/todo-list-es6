@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<coverage generated="1677684146537" clover="3.2.0">
-  <project timestamp="1677684146538" name="All files">
+<coverage generated="1677747757660" clover="3.2.0">
+  <project timestamp="1677747757660" name="All files">
     <metrics statements="30" coveredstatements="18" conditionals="6" coveredconditionals="2" methods="12" coveredmethods="8" elements="48" coveredelements="28" complexity="0" loc="30" ncloc="30" packages="1" files="1" classes="1"/>
-    <file name="ToDo.js" path="C:\Users\HP 612\Desktop\Module 2\ToDoList-Testing\todo-list-es6\src\modules\ToDo.js">
+    <file name="ToDo.js" path="/Users/benardasiimwebataringaya/Documents/work/microverse/todo-list-es6/src/modules/ToDo.js">
       <metrics statements="30" coveredstatements="18" conditionals="6" coveredconditionals="2" methods="12" coveredmethods="8"/>
-      <line num="3" count="1" type="stmt"/>
-      <line num="4" count="1" type="cond" truecount="2" falsecount="0"/>
-      <line num="8" count="3" type="stmt"/>
-      <line num="12" count="3" type="stmt"/>
-      <line num="13" count="3" type="stmt"/>
+      <line num="3" count="2" type="stmt"/>
+      <line num="4" count="2" type="cond" truecount="2" falsecount="0"/>
+      <line num="8" count="6" type="stmt"/>
+      <line num="12" count="6" type="stmt"/>
+      <line num="13" count="6" type="stmt"/>
       <line num="17" count="0" type="stmt"/>
       <line num="18" count="0" type="stmt"/>
       <line num="19" count="0" type="cond" truecount="0" falsecount="2"/>
@@ -21,19 +21,19 @@
       <line num="34" count="0" type="stmt"/>
       <line num="39" count="0" type="stmt"/>
       <line num="41" count="0" type="stmt"/>
-      <line num="45" count="2" type="stmt"/>
-      <line num="46" count="2" type="stmt"/>
-      <line num="50" count="2" type="stmt"/>
-      <line num="54" count="1" type="stmt"/>
-      <line num="55" count="2" type="stmt"/>
-      <line num="56" count="1" type="stmt"/>
-      <line num="60" count="5" type="stmt"/>
-      <line num="63" count="1" type="stmt"/>
-      <line num="64" count="4" type="stmt"/>
-      <line num="65" count="4" type="stmt"/>
-      <line num="66" count="5" type="stmt"/>
-      <line num="68" count="4" type="stmt"/>
-      <line num="72" count="1" type="stmt"/>
+      <line num="45" count="4" type="stmt"/>
+      <line num="46" count="4" type="stmt"/>
+      <line num="50" count="4" type="stmt"/>
+      <line num="54" count="2" type="stmt"/>
+      <line num="55" count="4" type="stmt"/>
+      <line num="56" count="2" type="stmt"/>
+      <line num="60" count="11" type="stmt"/>
+      <line num="63" count="2" type="stmt"/>
+      <line num="64" count="8" type="stmt"/>
+      <line num="65" count="8" type="stmt"/>
+      <line num="66" count="10" type="stmt"/>
+      <line num="68" count="8" type="stmt"/>
+      <line num="72" count="2" type="stmt"/>
     </file>
   </project>
 </coverage>
