@@ -69,9 +69,7 @@ todoInput.addEventListener('keypress', (e) => {
 
 clearList.addEventListener('click', (e) => {
   e.preventDefault();
-  const allToDos = todo.getListOfToDos();
-  const updatedData = allToDos.filter((it) => it.completed !== true);
-  todo.updateStorage(updatedData);
+  todo.clearChecked();
   populateView();
 });
 

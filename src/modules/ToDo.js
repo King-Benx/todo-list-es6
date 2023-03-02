@@ -67,6 +67,12 @@ sortList = (items) => {
   }
   return sortedList;
 }
+
+clearChecked() {
+  const allToDos = this.getListOfToDos();
+  const updatedData = allToDos.filter((it) => it.completed !== true);
+  this.updateStorage(updatedData);
+}
 }
 
 const todo = new ToDo();
